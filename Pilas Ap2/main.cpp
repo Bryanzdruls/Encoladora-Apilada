@@ -36,10 +36,11 @@ int main()
 				cout << "La pila esta llena." << endl;
 			}
 			break;
-		case 2://Desapilar.
+		case 2://Desapilar.			
 			if(!p1->pilaVacia())
 			{
 				p1->desapilar();
+				cout << "Se desapilo el ultimo dato." << endl;
 			}
 			else
 			{
@@ -76,7 +77,7 @@ int main()
 		cin.get();
 		cin.get();
 		system("cls");
-	} while (opc != 5);
+	} while (opc != 6);
 
 	return 0;
 }

@@ -3,24 +3,25 @@
 using namespace std;
 pila::pila(int n)
 {
-	limite = n;
+	limite = n-1;
 	tope = -1;
 	vec = new int[n];
 };
-void pila::apilar(int dato)
+
+void pila::apilar(int dato)//Similar al Set.
 {
 	tope++;
 	vec[tope] = dato;
 }
 
-int pila::desapilar()
+int pila::desapilar()//Similar al Get.
 {
 	int r= vec[tope];
 	tope--;
 	return r;
 }
 
-bool pila::pilaVacia()
+bool pila::pilaVacia()//Validacion vacia.
 {
 	bool r= false;
 	if (tope == -1)
@@ -30,7 +31,7 @@ bool pila::pilaVacia()
 	return r;
 }
 
-bool pila::pilaLlena()
+bool pila::pilaLlena()//Validacion llena(true = llena).
 {
 	if (tope == limite) 
 	{
@@ -53,12 +54,12 @@ void pila::llenarPila(pila* a)
 void pila::mostrarPila()
 {
 	int r= 0;
-	pila * aux= NULL;
+	pila * aux=new pila(limite);
 	while (pilaVacia() == false)
 	{
-		r = desapilar();
-		cout << "dato:"<<r<< endl;
+		r = desapilar(); //Se vacia la pila principal.
+		cout << "Posición "<<tope+1<<": "<< r << endl;
 		aux->apilar(r);
 	}
-	llenarPila(aux);
+	llenarPila(aux); //Se llena la pila auxiliar.
 }

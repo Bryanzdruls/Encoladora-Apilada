@@ -7,12 +7,12 @@ private:
 
 	//Metodos.
 public:
-	pila(int);
+	pila(int);//Constructor.
 	void apilar(int);//Set.
 	int desapilar(); //Get.
 	bool pilaVacia();
 	bool pilaLlena();
-	void llenarPila(pila*);
+	void llenarPila(pila*);//Pasar datos, de pila llena a pila vacia.
 	void mostrarPila();
 };
 
