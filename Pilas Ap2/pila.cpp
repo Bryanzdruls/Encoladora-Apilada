@@ -1,65 +1,164 @@
 #include "pila.h"
 #include<iostream>
+#include"Nodo.h"
 using namespace std;
-pila::pila(int n)
+pila_lista::pila_lista(int tam)
 {
-	limite = n-1;
-	tope = -1;
-	vec = new int[n];
+	limite = tam;
+	tope = 0;
+	punta = nullptr;
 };
 
-void pila::apilar(int dato)//Similar al Set.
+void pila_lista::apilar(int d)//Similar al Set.
 {
 	tope++;
-	vec[tope] = dato;
+	insertarInicio(d);
 }
 
-int pila::desapilar()//Similar al Get.
+
+void pila_lista::apilarOrdenado(int d)//malo
 {
-	int r= vec[tope];
+	pila_lista* aux = new pila_lista(limite);
+	int r = 0, i= 0;
+	
+	if(pilaVacia())
+		apilar(d);
+	else
+	{
+		i = desapilar();
+		apilar(i);
+		if (i <= d)
+		{
+			apilar(d);
+		}
+		else
+		{
+			while(i > d && !pilaVacia())
+			{
+				r = desapilar();
+				aux->apilar(r);
+			}
+			apilar(d);
+			while (!aux->pilaVacia())
+			{
+				r = aux->desapilar();
+				apilar(r);
+			}
+			
+		}
+	}
+}
+
+int pila_lista::desapilar()//Similar al Get.
+{
+	Nodo* p = punta;
+	int r = p->getDato();
+	punta = punta->getliga();
 	tope--;
+	delete(p);
 	return r;
 }
 
-bool pila::pilaVacia()//Validacion vacia.
+bool pila_lista::pilaVacia()//Validacion vacia.
 {
 	bool r= false;
-	if (tope == -1)
+	if (tope == 0)
 	{
 		r = true;
 	}
 	return r;
 }
 
-bool pila::pilaLlena()//Validacion llena(true = llena).
+bool pila_lista::pilaLlena()//Validacion llena(true = llena).
 {
 	if (tope == limite) 
-	{
 		return true;
-	}
 	else
-	{
 		return false;
-	}	
 }
 
-void pila::llenarPila(pila* a)
+void pila_lista::llenarPila(pila_lista* a)
 {
-	while(a->pilaVacia() == false)
+	while (a->pilaVacia() == false)
 	{
 		apilar(a->desapilar());
 	}
 }
 
-void pila::mostrarPila()
+void pila_lista::insertarInicio(int d)
 {
+	Nodo* x = new Nodo();
+
+	x->setDato(d);
+
+	if (punta == nullptr)
+	{
+		punta = x;
+	}
+	else
+	{
+		x->setLiga(punta);
+		punta = x;
+	}
+}
+
+void pila_lista::invertirPila()
+{
+	pila_lista* aux1 = new pila_lista(limite);
+	pila_lista* aux2 = new pila_lista(limite);
 	int r= 0;
-	pila * aux=new pila(limite);
+
+	while (!pilaVacia())
+	{
+		r = desapilar();
+		aux1->apilar(r);
+	}
+	aux2->llenarPila(aux1);
+	llenarPila(aux2);
+}
+
+void pila_lista::sumarPilas(pila_lista* p1, pila_lista* p2)
+{
+	int d1 = 0, d2= 0, d3= 0;
+	
+	while (!p1->pilaVacia() || !p2->pilaVacia())
+	{
+		if (!p1->pilaVacia() && !p2->pilaVacia())
+		{
+			d3 = p1->desapilar() + p2->desapilar();
+		}
+		else
+		{
+			if (p1->pilaVacia())
+			{
+				d3 = p2->desapilar();
+			}
+			else
+			{
+				if (p2->pilaVacia())
+				{
+					d3 = p1->desapilar();
+				}
+			}
+		}
+		apilar(d3);
+	}
+	invertirPila();
+}
+
+
+void pila_lista::mostrarPila()
+{
+	pila_lista * aux= new pila_lista(limite);
+	int r = 0;
 	while (pilaVacia() == false)
 	{
 		r = desapilar(); //Se vacia la pila principal.
-		cout << "Posición "<<tope+1<<": "<< r << endl;
+		cout << "Dato nodo "<<tope<<" : "<< r << endl;
 		aux->apilar(r);
 	}
 	llenarPila(aux); //Se llena la pila auxiliar.
 }
+
+
+
