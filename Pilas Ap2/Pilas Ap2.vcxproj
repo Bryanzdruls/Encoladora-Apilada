@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cola.h" />
     <ClInclude Include="Nodo.h" />
     <ClInclude Include="pila.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cola.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nodo.cpp" />
     <ClCompile Include="pila.cpp" />

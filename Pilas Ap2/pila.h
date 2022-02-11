@@ -1,5 +1,6 @@
 #pragma once
 #include "Nodo.h"
+#include "Cola.h"
 class pila_lista	
 {
 private:
@@ -11,17 +12,16 @@ private:
 public:
 	pila_lista(int);//Constructor.
 	void apilar(int);//Set.
-	void apilarOrdenado(int);
 	int desapilar(); //Get.
+	void apilarOrdenado(int);
+	void ordenarPila();
+
 	bool pilaVacia();
 	bool pilaLlena();
 	void llenarPila(pila_lista*);//Pasar datos, de pila llena a pila vacia.
-	void insertarInicio(int);
 	void invertirPila();
 	void mostrarPila();
-	void sumarPilas(pila_lista*, pila_lista*);
-	void ordenarPilas();
-	
-
+	int getDatoPunta();
+	void insertarInicio(int);
 };
 

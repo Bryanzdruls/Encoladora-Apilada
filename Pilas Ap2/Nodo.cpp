@@ -1,5 +1,6 @@
 #include "Nodo.h"
 #include"pila.h"
+#include"Cola.h"
 
 Nodo::Nodo()
 {

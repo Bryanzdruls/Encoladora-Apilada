@@ -1,6 +1,7 @@
 #include "pila.h"
 #include<iostream>
 #include"Nodo.h"
+#include"Cola.h"
 using namespace std;
 pila_lista::pila_lista(int tam)
 {
@@ -43,10 +44,51 @@ void pila_lista::apilarOrdenado(int d)//malo
 			{
 				r = aux->desapilar();
 				apilar(r);
-			}
-			
+			}	
 		}
 	}
+}
+
+void pila_lista::ordenarPila()
+{
+	int r;
+	pila_lista* aux1 = new pila_lista(limite);
+	pila_lista* aux2 = new pila_lista(limite);
+	if (tope > 1)
+	{
+		r = desapilar();
+		while (!pilaVacia()) //encuentra al menor.
+		{
+			if (r < punta->getDato())
+				aux1->apilar(desapilar());
+			else
+			{
+				aux1->apilar(r);
+				r = desapilar();
+			}
+		}
+		apilar(r); //el menor se apila.
+		r = aux1->desapilar();
+		while (!aux1->pilaVacia())
+		{
+			if (r < aux1->punta->getDato())
+			{
+				aux2->apilar(r);
+				r = aux1->desapilar();
+			}
+			else
+				aux2->apilar(aux1->desapilar());
+		}
+		aux1->apilar(r);
+		aux1->llenarPila(aux2);
+		llenarPila(aux1);
+		cout << "La pila se ha ordenado correctamente." << endl;
+	}
+	else
+	{
+		cout << "La pila solo tiene un dato" << endl;
+	}
+	
 }
 
 int pila_lista::desapilar()//Similar al Get.
@@ -85,6 +127,12 @@ void pila_lista::llenarPila(pila_lista* a)
 	}
 }
 
+int pila_lista::getDatoPunta()
+{
+	int r = punta->getDato();
+	return r;
+}
+
 void pila_lista::insertarInicio(int d)
 {
 	Nodo* x = new Nodo();
@@ -116,35 +164,37 @@ void pila_lista::invertirPila()
 	aux2->llenarPila(aux1);
 	llenarPila(aux2);
 }
-
-void pila_lista::sumarPilas(pila_lista* p1, pila_lista* p2)
+/*
+void pila_lista::sumarPilaCola(pila_lista* p1, cola* c2)
 {
 	int d1 = 0, d2= 0, d3= 0;
-	
-	while (!p1->pilaVacia() || !p2->pilaVacia())
+
+	while (!p1->pilaVacia() || !c2->ColaVacia())
 	{
-		if (!p1->pilaVacia() && !p2->pilaVacia())
+		if (!p1->pilaVacia() && !c2->ColaVacia())
 		{
-			d3 = p1->desapilar() + p2->desapilar();
+			d3 = p1->desapilar() + c2->desencolar();
 		}
 		else
 		{
 			if (p1->pilaVacia())
 			{
-				d3 = p2->desapilar();
+				d3 = c2->desencolar();
 			}
 			else
 			{
-				if (p2->pilaVacia())
+				if (c2->ColaVacia())
 				{
 					d3 = p1->desapilar();
 				}
 			}
 		}
-		apilar(d3);
+		encolar(d3);
 	}
 	invertirPila();
 }
+*/
+
 
 
 void pila_lista::mostrarPila()
