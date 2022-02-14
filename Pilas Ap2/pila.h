@@ -21,7 +21,8 @@ public:
 	void llenarPila(pila_lista*);//Pasar datos, de pila llena a pila vacia.
 	void invertirPila();
 	void mostrarPila();
-	int getDatoPunta();
+	int getLimite();
+
 	void insertarInicio(int);
 };
 

@@ -19,32 +19,27 @@ void pila_lista::apilar(int d)//Similar al Set.
 
 void pila_lista::apilarOrdenado(int d)//malo
 {
+	int r;
 	pila_lista* aux = new pila_lista(limite);
-	int r = 0, i= 0;
-	
-	if(pilaVacia())
+
+	if (pilaVacia())
 		apilar(d);
 	else
 	{
-		i = desapilar();
-		apilar(i);
-		if (i <= d)
+		
+		if (d <= punta->getDato())
 		{
-			apilar(d);
-		}
-		else
-		{
-			while(i > d && !pilaVacia())
+			while (!pilaVacia() && d <= punta->getDato())
 			{
 				r = desapilar();
 				aux->apilar(r);
 			}
 			apilar(d);
-			while (!aux->pilaVacia())
-			{
-				r = aux->desapilar();
-				apilar(r);
-			}	
+			llenarPila(aux);
+		}
+		else
+		{
+			apilar(d);
 		}
 	}
 }
@@ -88,7 +83,6 @@ void pila_lista::ordenarPila()
 	{
 		cout << "La pila solo tiene un dato" << endl;
 	}
-	
 }
 
 int pila_lista::desapilar()//Similar al Get.
@@ -127,12 +121,6 @@ void pila_lista::llenarPila(pila_lista* a)
 	}
 }
 
-int pila_lista::getDatoPunta()
-{
-	int r = punta->getDato();
-	return r;
-}
-
 void pila_lista::insertarInicio(int d)
 {
 	Nodo* x = new Nodo();
@@ -164,38 +152,6 @@ void pila_lista::invertirPila()
 	aux2->llenarPila(aux1);
 	llenarPila(aux2);
 }
-/*
-void pila_lista::sumarPilaCola(pila_lista* p1, cola* c2)
-{
-	int d1 = 0, d2= 0, d3= 0;
-
-	while (!p1->pilaVacia() || !c2->ColaVacia())
-	{
-		if (!p1->pilaVacia() && !c2->ColaVacia())
-		{
-			d3 = p1->desapilar() + c2->desencolar();
-		}
-		else
-		{
-			if (p1->pilaVacia())
-			{
-				d3 = c2->desencolar();
-			}
-			else
-			{
-				if (c2->ColaVacia())
-				{
-					d3 = p1->desapilar();
-				}
-			}
-		}
-		encolar(d3);
-	}
-	invertirPila();
-}
-*/
-
-
 
 void pila_lista::mostrarPila()
 {
@@ -204,11 +160,13 @@ void pila_lista::mostrarPila()
 	while (pilaVacia() == false)
 	{
 		r = desapilar(); //Se vacia la pila principal.
-		cout << "Dato nodo "<<tope<<" : "<< r << endl;
+		cout << "|"<< r<< "|"<< endl;
 		aux->apilar(r);
 	}
 	llenarPila(aux); //Se llena la pila auxiliar.
 }
 
-
-
+int pila_lista::getLimite()
+{
+	return limite;
+}

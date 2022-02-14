@@ -30,10 +30,34 @@ int cola::desencolar()
     return r;
 }
 
-void cola::encolarOrdenado(int d)
+void cola::encularOrdenado(int d, cola* c)
 {
-
-}
+    cola* aux = new cola(limite);
+    int r = 0;
+    if (ColaVacia())
+        encolar(d);
+    else
+    {
+        r = Vcola[0];
+        if (d <= r)
+        {
+            aux->encolar(d);
+            while (!ColaVacia())
+                aux->encolar(desencolar());
+            llenarCola(aux);
+        }
+        else
+        {
+            while (d > r)
+            {
+                aux->encolar(desencolar());
+            }
+            aux->encolar(d);
+            aux->llenarCola(c);
+            llenarCola(aux);
+        }
+    }
+};
 
 void cola::ordenarCola()
 {
@@ -101,36 +125,94 @@ void cola::llenarCola(cola *a)
     while (a->ColaVacia() == false)
         encolar(a->desencolar());
 }
-/*
-* void cola::sumarPilaCola(pila_lista* p1, cola* c2)
-{
-    int d1 = 0, d2 = 0, d3 = 0;
 
-    while (!p1->pilaVacia() || !c2->ColaVacia())
+void cola::sumarPilaCola(pila_lista* p1, cola* c1)
+{
+    cola* c2;
+    int r = 0, s = 0, t = 0;
+    if (p1->getLimite() > c1->getLimite())
     {
-        if (!p1->pilaVacia() && !c2->ColaVacia())
+        c2 = new cola(p1->getLimite());
+        while (!p1->pilaVacia())
         {
-            d3 = p1->desapilar() + c2->desencolar();
-        }
-        else
-        {
-            if (p1->pilaVacia())
+            if (!c1->ColaVacia() && !p1->pilaVacia())
             {
-                d3 = c2->desencolar();
+                r = c1->desencolar();
+                s = p1->desapilar();
+                t = r + s;
+                c2->encolar(t);
             }
             else
             {
-                if (c2->ColaVacia())
+                s = p1->desapilar();
+                c2->encolar(s);
+            }
+        }
+    }
+    else
+    {
+        c2 = new cola(c1->getLimite());
+        while (!c1->ColaVacia())
+        {
+            if (!c1->ColaVacia() && !p1->pilaVacia())
+            {
+                r = c1->desencolar();
+                s = p1->desapilar();
+                t = r + s;
+                c2->encolar(t);
+            }
+            else
+            {
+                r = c1->desencolar();
+                c2->encolar(r);
+            }
+        }
+    }
+    c2->MostrarCola();
+}
+
+void cola::intercalado(cola* c1, cola* c2)
+{
+    pila_lista* p = new pila_lista(c1->getLimite());
+
+    if(!p->pilaLlena())
+    {
+        while (!c1->ColaVacia() || !c2->ColaVacia())
+        {
+            if (!c1->ColaVacia() && !c2->ColaVacia())
+            {
+                p->apilar(c1->desencolar());
+                p->apilar(c2->desencolar());
+            }
+            else
+            {
+                if (c1->ColaVacia())
+                    p->apilar(c2->desencolar());
+                else
                 {
-                    d3 = p1->desapilar();
+                    if (c2->ColaVacia())
+                    {
+                        p->apilar(c1->desencolar());
+                    }
                 }
             }
         }
-        encolar(d3);
+        if (!p->pilaVacia())
+        {
+            p->mostrarPila();
+        }
+        else
+        {
+            cout << "No hay datos en la pila resultante." << endl;
+            cin.get();
+        }
     }
-    invertirCola();
+    else
+    {
+        cout << "La pila esta llena." << endl;
+        cin.get();
+    }
 }
-*/
 
 void cola::invertirCola()
 {
@@ -148,14 +230,17 @@ void cola::invertirCola()
 }
 void cola::MostrarCola()
 {
-    int r = 0, i = 0;
+    int r = 0;
     cola* Ca = new cola(limite + 1);
     while (!ColaVacia())
     {
         r = desencolar();
-        cout << "El dato en la posicion " << i << " es:" << r << endl;
+        cout<<" |" << r <<"|";
         Ca->encolar(r);
-        i++;
     }
     llenarCola(Ca);
+}
+int cola::getLimite()
+{
+    return limite;
 };
