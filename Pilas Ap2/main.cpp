@@ -4,6 +4,7 @@
 #include <wchar.h>
 #include"pila.h"
 #include"Cola.h"
+#include<Windows.h>
 //PIlas apiladas.
 
 using namespace std;
@@ -13,6 +14,7 @@ void menuPrincipal();
 void colas();
 int main()
 {
+	system("color BD");
 	int opt = 0, optP=0, optC=0, dato = 0, n = 0, m = 0, cantColas;
 	setlocale(LC_ALL, "");
 	cout << "Bienvenidos a la Apiladora Encolada." << endl<< endl<<endl;
@@ -21,12 +23,10 @@ int main()
 	cout << "Ingrese el tamaño de la cola" << endl;
 	cin >> m;
 	//Instancia.
-
 	pila_lista* p= new pila_lista(n);
 	cola* c = new cola(m);
 	cola* c1 =new cola(m);
 	cola* c2=new cola(m);
-	
 	do
 	{
 		menuPrincipal();
@@ -327,6 +327,7 @@ int main()
 			break;
 		}
 	} while (opt != 5);
+	return 0;
 }
 
 void menuPilas()

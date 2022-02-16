@@ -48,9 +48,10 @@ void cola::encularOrdenado(int d, cola* c)
         }
         else
         {
-            while (d > r)
+            while (d > r && !ColaVacia())
             {
                 aux->encolar(desencolar());
+                r = Vcola[0];
             }
             aux->encolar(d);
             aux->llenarCola(c);
